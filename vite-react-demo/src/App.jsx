@@ -1,11 +1,13 @@
 import React from 'react'
-import TodoApp from "./components/TodoApp"
+import TodoApp from "./components/TodoApp";
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 function App() {
   return (
-    <div>
+    <Provider state={store}>
       <TodoApp />
-    </div>
+    </Provider>
   )
 }
 
