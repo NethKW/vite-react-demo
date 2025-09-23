@@ -7,8 +7,19 @@ import TodoForm from './TodoForm'
 import TodoItem from './TodoItem'
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import { useSelector } from 'react-redux';
+import { selectFilteredTodos, SelectFilters, selectTodos, selectTodosStats } from '../store/selectors';
+
 
 function TodoApp() {
+
+  const todos = useSelector(selectTodos);
+  console.log(todos);
+  const filteredTodos = useSelector(selectFilteredTodos);
+  const stats = useSelector(selectTodosStats);
+  const filter = useSelector(SelectFilters);
+console.log(stats.completionPercentage);
+
   return (
     <div className='min-h-screen bg-gradient-to-b from-gray-200 to-gray-400 py-8 px-4'>
       <div className='max-w-2xl mx-auto'>
@@ -26,13 +37,13 @@ function TodoApp() {
             </h2>
             <div className='text-2xl font-bold text-green-500'>
             {/* Stats Completed logics*/}
-            
+            {stats.completionPercentage}%
           </div>
           </div>
 
           <div className='w-full bg-gray-300 rounded-full h-3 mb-4'>
             {/*Prgressbar */}
-            <div className='bg-gradient-to-b from-green-500 to-green-600 h-3 rounded-full transition-all duration-400 ease-out'></div>
+            <div className='bg-gradient-to-b from-green-500 to-green-600 h-3 rounded-full transition-all duration-400 ease-out' style={{width: `${stats.completionPercentage}%`}}></div>
           </div>
 
           {/* Stats */}
@@ -40,18 +51,21 @@ function TodoApp() {
             <div>
               <div className='text-2xl font-bold text-black'>
                 {/* Stats Total logic */}
+                {stats.total}
               </div>
               <div className='text-sm text-gray-800'>Total</div>
             </div>
             <div>
               <div className='text-2xl font-bold text-black'>
                 {/* Stats Active logic */}
+                {stats.active}
               </div>
               <div className='text-sm text-gray-800'>Active</div>
             </div>
             <div>
               <div className='text-2xl font-bold text-black'>
                 {/* Stats Completed logic */}
+                {stats.completed}
               </div>
               <div className='text-sm text-gray-800'>Completed</div>
             </div>
@@ -66,22 +80,32 @@ function TodoApp() {
               <button className='flex item-center gap-3 bg-blue-400 hover:bg-blue-500 hover:text-black text-white px-4 py-2 rounded-lg transition-colors duration-200 cursor-pointer font medium'>
                 <AddIcon />Add
               </button>
-              {/* Clear and delete button */}
+              
+            
+            {/* Clear and delete button */}
+            {stats.total > 0 && (
               <div className='flex item-center gap-3'>
-                <button className='flex item-center gap-3 text-red-400 hover:text-red-700 px-3 py-2 rounded-lg hover:bg-red-50'>
+                {stats.completed > 0 && (
+                  <button className='flex item-center gap-3 text-red-400 hover:text-red-700 px-3 py-2 rounded-lg hover:bg-red-50'>
                 <ClearIcon />Clear Completed
               </button>
+                )}
 
-              <div className='flex item-center gap-3'>
+              {stats.active > 0 &&(
                 <button className='flex item-center gap-3 text-green-400 hover:text-green-700 px-3 py-2 rounded-lg hover:bg-red-50'>
                 <CheckIcon />Mark All Completed
               </button>
+              )}
+                
               </div>
-            </div>
+              
+
+            )}
+              
             
           </div>
           {/*Todo filter */}
-            <TodoFilter />
+            <TodoFilter currentfilter={filter} stats={stats} />
             
         </div>
         {/* todo form */}
