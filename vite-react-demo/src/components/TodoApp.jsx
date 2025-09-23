@@ -32,7 +32,7 @@ function TodoApp() {
 
           <div className='w-full bg-gray-300 rounded-full h-3 mb-4'>
             {/*Prgressbar */}
-            <div className='bg-gradient-to-b from-green-300 to-green-400 h-3 rounded-full transition-all duration-400 ease-out'></div>
+            <div className='bg-gradient-to-b from-green-500 to-green-600 h-3 rounded-full transition-all duration-400 ease-out'></div>
           </div>
 
           {/* Stats */}
