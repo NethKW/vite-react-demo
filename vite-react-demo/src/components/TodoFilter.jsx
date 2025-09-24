@@ -14,7 +14,7 @@ function TodoFilter({ currentfilter, stats }) {
     <div className='flex item-center justify-center'> 
     <div className='inline-flex bg-gray-200 rounded-lg p-1'>
       {filter.map(({key, label, icon: Icon, count}) => {
-        return <button className={`flex items-center gap-3 px-2 py-2 rounded-md test-sm transition-all duration-200 ${currentfilter === key ? "bg-white text-gray-80 shadow-md" : "text-gray-600 hover:text-gray-950 hover:bg-gray-400"}`}><Icon />
+        return <button className={`flex items-center gap-3 px-2 py-2 rounded-md test-sm transition-all duration-200 ${currentfilter === key ? "bg-white text-gray-80 shadow-md" : "text-gray-600 hover:text-gray-950 hover:bg-gray-400"}`} key={key}><Icon />
         <span>{label}</span>
         <span>{count}</span>
         </button>

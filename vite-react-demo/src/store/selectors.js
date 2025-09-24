@@ -1,5 +1,6 @@
 export const selectTodos = (state) => state.todos.items;
 export const SelectFilters = (state) => state.todos.filter;
+export const selectIsAddingTodo = (state) => state.todos.isAddingTodo;
 
 export const selectFilteredTodos = (state) => {
     const todos = state.todos.items;

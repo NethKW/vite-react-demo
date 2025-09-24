@@ -7,17 +7,26 @@ import TodoForm from './TodoForm'
 import TodoItem from './TodoItem'
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectFilteredTodos, SelectFilters, selectTodos, selectTodosStats } from '../store/selectors';
+import { selectIsAddingTodo as setIsAddingTodo } from '../store/todoSlice';
 
 
 function TodoApp() {
-
+  const dispatch = useDispatch();
   const todos = useSelector(selectTodos);
   console.log(todos);
   const filteredTodos = useSelector(selectFilteredTodos);
   const stats = useSelector(selectTodosStats);
   const filter = useSelector(SelectFilters);
+  const isAddingTodo = useSelector(setIsAddingTodo);
+  console.log(todos);
+
+  const handleAddTodoClick =() => {
+    dispatch(setIsAddingTodo(true));
+    console.log(isAddingTodo);
+  }
+
 console.log(stats.completionPercentage);
 
   return (
@@ -30,7 +39,7 @@ console.log(stats.completionPercentage);
         </div>
 
         {/*Stats Card*/}
-        <div className='bg-white backdrop-blur-sm rounded-2xl p-6 mb6 border border-gray-400 shadow-lg'>
+        {stats.total > 0 && (<div className='bg-white backdrop-blur-sm rounded-2xl p-6 mb6 border border-gray-400 shadow-lg'>
           <div className='flex items-center justify-between mb-4'>
             <h2 className='text-lg font-semibold text-gray-500'>
               Progress Overview
@@ -71,13 +80,14 @@ console.log(stats.completionPercentage);
             </div>
 
           </div>
-        </div>
+        </div>)}
         {/* Main Todo */}
         <div className='bg-white backdrop-blur-md mt-4 rounded-2xl border border-gray-300 shadow-lg overflow-hidden'>
           {/* Action bar */}
           <div className='p-6 border-b border-gray-300'>
             <div className='flex items-center justify-between mb-4'>
-              <button className='flex item-center gap-3 bg-blue-400 hover:bg-blue-500 hover:text-black text-white px-4 py-2 rounded-lg transition-colors duration-200 cursor-pointer font medium'>
+              <button className='flex item-center gap-3 bg-blue-400 hover:bg-blue-500 hover:text-black text-white px-4 py-2 rounded-lg transition-colors duration-200 cursor-pointer font medium'
+              onClick={handleAddTodoClick}>
                 <AddIcon />Add
               </button>
               
@@ -96,8 +106,7 @@ console.log(stats.completionPercentage);
                 <CheckIcon />Mark All Completed
               </button>
               )}
-                
-              </div>
+               </div>
               
 
             )}
@@ -109,25 +118,39 @@ console.log(stats.completionPercentage);
             
         </div>
         {/* todo form */}
-        <div className='p-6 border-b border-gray-300 bg-gray-100'>
-          <TodoForm />
+        {isAddingTodo && (
+          <div className='p-6 border-b border-gray-300 bg-gray-100'>
+          <TodoForm placeholer="what need to be done" />
         </div>
+        )}
         {/* todo list */}
         <div className='max-h-96 overflow-y-auto'>
-          <div className='p-12 text-center'>
-            <div className='text-black-300'>
+          {filteredTodos.length === 0 ? (
+            <div className='p-12 text-center'>
+            {todos.length === 0 ? <div className='text-black-300'>
               <PanoramaFishEyeIcon sx={{ fontSize: 28 }} className='mx-auto mb-4 opacity-50' />
               <p className='text-lg font-medium'>No Todos yet</p>
               <p>Add your 1st todo to get started.</p>
             </div>
 
-            {/* Conditional radering */}
+             : (
             <div>
               <FilterAltOutlinedIcon sx={{ fontSize: 58 }} className='mx-auto mb-4 opacity-50'/>
-              <p>No Filter  TOdos</p>
+              <p>No {filter} TOdos
+              <p className='text-sm'>
+                {filter === "completed" && "all your todos are completed"}
+                {filter === "active" && "no completed todos yet,keep going"}
+              </p>
+              </p>
               
-            </div>
+            </div>)}
           </div>
+          ) : (
+          <div className='divide-y divide-gray-500'>
+            {filteredTodos.map((todo, index) => {
+               return <TodoItem key={todo.id} todo={todo} index={index} />
+            })}
+          </div>)}
         </div>
       </div>
       {/* footer Info */}

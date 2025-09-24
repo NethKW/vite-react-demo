@@ -9,7 +9,25 @@ const initialState = {
 const todoSlice = createSlice({
     name: "todos",
     initialState,
-    reducers: {},
+    reducers: {
+        selectIsAddingTodo: (state, action)=> {
+           state.isAddingTodo = action.payload 
+        },
+
+        addTodo:(state, action)=> {
+           const newTodo = {
+            id: crypto.randomUUID(),
+            text: action.payload.trim(),
+            completed: false,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+
+           };
+           state.items.unshift(newTodo);
+           state.isAddingTodo = false;
+        },
+    },
 });
 
+export const {selectIsAddingTodo, addTodo} = todoSlice.actions;
 export default todoSlice.reducer;
