@@ -8,8 +8,8 @@ import TodoItem from './TodoItem'
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectFilteredTodos, SelectFilters, selectTodos, selectTodosStats } from '../store/selectors';
-import { selectIsAddingTodo as setIsAddingTodo } from '../store/todoSlice';
+import { selectFilteredTodos, SelectFilters, selectTodos, selectTodosStats, selectIsAddingTodo } from '../store/selectors';
+import { setIsAddingTodo } from '../store/todoSlice';
 
 
 function TodoApp() {
@@ -19,7 +19,7 @@ function TodoApp() {
   const filteredTodos = useSelector(selectFilteredTodos);
   const stats = useSelector(selectTodosStats);
   const filter = useSelector(SelectFilters);
-  const isAddingTodo = useSelector(setIsAddingTodo);
+  const isAddingTodo = useSelector(selectIsAddingTodo);
   console.log(todos);
 
   const handleAddTodoClick =() => {

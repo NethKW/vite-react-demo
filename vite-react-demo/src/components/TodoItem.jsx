@@ -5,8 +5,8 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
 function TodoItem({todo, index}) {
-  const [isEditing, serIsEditing] = useState(false);
-  const [isDeleting, serIsDelete] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isDeleting, setIsDelete] = useState(false);
 
 
   const formatDate =(dateString) => {
@@ -31,26 +31,27 @@ function TodoItem({todo, index}) {
       {/*toggle button */}
       <div className='flex item-start gap-3'>
         <button className={`'flex w-6 h-6 rounded-full border-2 items-center justify-center ' transition-all duration-200 ${todo.completed ? "bg-green-500 border-green-500 text-white hover:bg-green-600": "border-gray-500 hover:border-green-600 hover:bg-green-50"}`}>
-          <CheckOutlinedIcon sx={{ fontSize: 20 }} />
+          <CheckOutlinedIcon sx={{ fontSize: 18 }} />
         </button>
 
         <div className='flex-1 min-w-0'>
-          <div>{todo.text}</div>
-          <div className='flex-item-center gap-4 text-gray-700'>
-            <div className='flex items-center gap-1'>
+          <div className='text-gray-900 leadiing-relaxed'>{todo.text}</div>
+          <div className='flex-item-center gap-4 mt-2 text-gray-700'>
+            <div className='flex items-center gap-3'>
               <CalendarTodayOutlinedIcon />
               <span>Created {formatDate(todo.createdAt)}</span>
-            </div>
+            
             <span>Update {formatDate(todo.updatedAt)}</span>
-          </div>
+          
+          </div></div>
         </div>
 
         {/*Action Button */}
-        <div className='flex items-center gap-1 opacity-0 group-hover::opacity-100'>
-          <button className='p-2 text-gray-900 hover:text-gray-950 '>
+        <div className='flex items-center gap-1 opacity-40 group-hover::opacity-100'>
+          <button className='p-2 text-gray-900 hover:text-gray-950 hover:bg-gray-600 rounded-lg transition-all duration-200'>
           <EditOutlinedIcon sx={{ fontSize: 20 }} />
         </button>
-        <button className='p-2 text-gray-900 hover:text-red-800 '>
+        <button className='p-2 text-gray-900 hover:text-red-800 hover:bg-gray-600 rounded-lg transition-all duration-200 '>
           <DeleteOutlineOutlinedIcon sx={{ fontSize: 20 }} />
         </button>
         </div>

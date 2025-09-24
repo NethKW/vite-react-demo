@@ -10,7 +10,7 @@ const todoSlice = createSlice({
     name: "todos",
     initialState,
     reducers: {
-        selectIsAddingTodo: (state, action)=> {
+        setIsAddingTodo: (state, action)=> {
            state.isAddingTodo = action.payload 
         },
 
@@ -29,5 +29,5 @@ const todoSlice = createSlice({
     },
 });
 
-export const {selectIsAddingTodo, addTodo} = todoSlice.actions;
+export const {setIsAddingTodo, addTodo} = todoSlice.actions;
 export default todoSlice.reducer;
