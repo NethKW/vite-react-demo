@@ -9,7 +9,7 @@ import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectFilteredTodos, SelectFilters, selectTodos, selectTodosStats, selectIsAddingTodo } from '../store/selectors';
-import { setIsAddingTodo } from '../store/todoSlice';
+import { setFilter, setIsAddingTodo, markAllComplete, clearCompleted } from '../store/todoSlice';
 
 
 function TodoApp() {
@@ -20,12 +20,23 @@ function TodoApp() {
   const stats = useSelector(selectTodosStats);
   const filter = useSelector(SelectFilters);
   const isAddingTodo = useSelector(selectIsAddingTodo);
-  console.log(todos);
+  
+  const handleFilterChange = (newFilter) => {
+    dispatch(setFilter(newFilter));
+  }
 
   const handleAddTodoClick =() => {
     dispatch(setIsAddingTodo(true));
-    console.log(isAddingTodo);
+    
   }
+  const handleMarkComplete =() => {
+    dispatch(markAllComplete());
+  }
+  const handleClearComplete =() => {
+    dispatch(clearCompleted());
+  }
+
+
 
 console.log(stats.completionPercentage);
 
@@ -96,13 +107,15 @@ console.log(stats.completionPercentage);
             {stats.total > 0 && (
               <div className='flex item-center gap-3'>
                 {stats.completed > 0 && (
-                  <button className='flex item-center gap-3 text-red-400 hover:text-red-700 px-3 py-2 rounded-lg hover:bg-red-50'>
+                  <button className='flex item-center gap-3 text-red-400 hover:text-red-700 px-3 py-2 rounded-lg hover:bg-red-50'
+                  onClick={handleClearComplete}>
                 <ClearIcon />Clear Completed
               </button>
                 )}
 
               {stats.active > 0 &&(
-                <button className='flex item-center gap-3 text-green-400 hover:text-green-700 px-3 py-2 rounded-lg hover:bg-red-50'>
+                <button className='flex item-center gap-3 text-green-400 hover:text-green-700 px-3 py-2 rounded-lg hover:bg-red-50'
+                onClick={handleMarkComplete}>
                 <CheckIcon />Mark All Completed
               </button>
               )}
@@ -114,7 +127,7 @@ console.log(stats.completionPercentage);
             
           </div>
           {/*Todo filter */}
-            <TodoFilter currentfilter={filter} stats={stats} />
+            <TodoFilter currentfilter={filter} stats={stats} onFilterChange={handleFilterChange}/>
             
         </div>
         {/* todo form */}
