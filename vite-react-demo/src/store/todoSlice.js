@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const loadTodos = () => {
     try {
-        const saved = localStorage.getItems('todos');
+        const saved = localStorage.getItem('todos');
         return saved ? JSON.parse(saved) : [];
     } catch {
         return [];
